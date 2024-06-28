@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Obliczanie wartości</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        .result {
+            margin-top: 20px;
+        }
+        .remove-btn {
+            margin-left: 10px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <h1>Obliczanie wartości</h1>
+    <form id="calcForm">
+        <div id="inputContainer">
+            <!-- Pola tekstowe będą dodawane tutaj -->
+        </div>
+        <button type="button" onclick="addField()">Dodaj pole</button>
+    </form>
+    <div class="result">
+        <p>Suma: <span id="sum">0</span></p>
+        <p>Średnia: <span id="average">0</span></p>
+        <p>Min: <span id="min">0</span></p>
+        <p>Max: <span id="max">0</span></p>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            for (let i = 0; i < 3; i++) {
+                addField();
+            }
+        });
+
+        function addField() {
+            const inputContainer = document.getElementById('inputContainer');
+            const inputDiv = document.createElement('div');
+            inputDiv.classList.add('input-field');
+
+            const input = document.createElement('input');
+            input.type = 'number';
+            input.required = true;
+            input.oninput = calculate;
+
+            const removeBtn = document.createElement('button');
+            removeBtn.type = 'button';
+            removeBtn.textContent = 'Usuń';
+            removeBtn.classList.add('remove-btn');
+            removeBtn.onclick = () => {
+                inputContainer.removeChild(inputDiv);
+                calculate();
+            };
+
+            inputDiv.appendChild(input);
+            inputDiv.appendChild(removeBtn);
+            inputContainer.appendChild(inputDiv);
+        }
+
+        function calculate() {
+            const inputs = document.querySelectorAll('#inputContainer input');
+            const numbers = Array.from(inputs).map(input => parseFloat(input.value) || 0);
+
+            const sum = numbers.reduce((a, b) => a + b, 0);
+            const average = numbers.length ? sum / numbers.length : 0;
+            const min = numbers.length ? Math.min(...numbers) : 0;
+            const max = numbers.length ? Math.max(...numbers) : 0;
+
+            document.getElementById('sum').textContent = sum;
+            document.getElementById('average').textContent = average;
+            document.getElementById('min').textContent = min;
+            document.getElementById('max').textContent = max;
+        }
+    </script>
+</body>
+</html>

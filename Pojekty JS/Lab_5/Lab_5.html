@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Asynchroniczne Dodawanie</title>
+</head>
+<body>
+  <h1>Testowanie Asynchronicznego Dodawania</h1>
+  <button id="test-button">Uruchom Test</button>
+  <div id="result"></div>
+
+  <script>
+    const asyncAdd = async (a, b) => {
+      if (typeof a !== 'number' || typeof b !== 'number') {
+        return Promise.reject('Argumenty muszą mieć typ number!');
+      }
+      return new Promise((resolve, reject) => {
+        setTimeout(() => {
+          resolve(a + b);
+        }, 100);
+      });
+    };
+
+    const asyncSum = async (...args) => {
+      if (args.some(arg => typeof arg !== 'number')) {
+        return Promise.reject('Wszystkie argumenty muszą być liczbami!');
+      }
+
+      let result = 0;
+      for (let i = 0; i < args.length; i++) {
+        result = await asyncAdd(result, args[i]);
+      }
+      return result;
+    };
+
+    const asyncSumOptimized = async (...args) => {
+      if (args.some(arg => typeof arg !== 'number')) {
+        return Promise.reject('Wszystkie argumenty muszą być liczbami!');
+      }
+
+      if (args.length === 0) return 0;
+      if (args.length === 1) return args[0];
+
+      const mid = Math.floor(args.length / 2);
+      const left = args.slice(0, mid);
+      const right = args.slice(mid);
+
+      const [sumLeft, sumRight] = await Promise.all([
+        asyncSumOptimized(...left),
+        asyncSumOptimized(...right)
+      ]);
+
+      return asyncAdd(sumLeft, sumRight);
+    };
+
+    const measureTime = async (fn, ...args) => {
+      const start = performance.now();
+      const result = await fn(...args);
+      const end = performance.now();
+      const time = end - start;
+      console.log(`Czas wykonania: ${time} ms`);
+      return { result, time };
+    };
+
+    const testAsyncSumOptimized = async (size) => {
+      const data = Array.from({ length: size }, () => Math.floor(Math.random() * 100));
+      const { result, time } = await measureTime(asyncSumOptimized, ...data);
+
+      const resultDiv = document.getElementById('result');
+      resultDiv.innerHTML = `<p>Wynik dodawania: ${result}</p><p>Czas wykonania: ${time.toFixed(2)} ms</p>`;
+    };
+
+    document.getElementById('test-button').addEventListener('click', () => {
+      testAsyncSumOptimized(100);
+    });
+  </script>
+</body>
+</html>

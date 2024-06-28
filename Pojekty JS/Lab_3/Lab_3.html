@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Drum Machine</title>
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            background-color: #282c34;
+            color: white;
+            font-family: Arial, sans-serif;
+        }
+        .button {
+            padding: 20px;
+            margin: 10px;
+            background-color: #61dafb;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        .button:active {
+            background-color: #21a1f1;
+        }
+        .checkbox {
+            margin: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div>
+        <button class="button" data-key="a">Kick (A)</button>
+        <button class="button" data-key="s">Snare (S)</button>
+        <button class="button" data-key="d">Hi-Hat (D)</button>
+        <button class="button" data-key="f">Tom (F)</button>
+    </div>
+    <div>
+        <button class="button" onclick="addChannel()">Add Channel</button>
+        <button class="button" onclick="removeChannel()">Remove Channel</button>
+    </div>
+    <div id="channels-container"></div>
+    <div>
+        <button class="button" onclick="startRecording()">Start Recording</button>
+        <button class="button" onclick="stopRecording()">Stop Recording</button>
+    </div>
+    <div>
+        <button class="button" onclick="playbackSelectedChannels()">Play Selected Channels</button>
+        <button class="button" onclick="toggleLoop()">Toggle Loop</button>
+    </div>
+    <div>
+        <label>Loop Length (ms): <input type="number" id="loop-length" value="4000"></label>
+    </div>
+    <div>
+        <button class="button" onclick="toggleMetronome()">Toggle Metronome</button>
+        <label>BPM: <input type="number" id="bpm" value="120"></label>
+    </div>
+    <script src="drumkit.js"></script>
+</body>
+</html>

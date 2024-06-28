@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Kulka do Dziury</title>
+    <style>
+      body {
+        margin: 0;
+        overflow: hidden;
+      }
+      #gameArea {
+        position: relative;
+        width: 100vw;
+        height: 100vh;
+        background-color: lightgray;
+      }
+      .ball,
+      .hole {
+        position: absolute;
+        border-radius: 50%;
+      }
+      .ball {
+        width: 30px;
+        height: 30px;
+        background-color: red;
+      }
+      .hole {
+        width: 50px;
+        height: 50px;
+        background-color: black;
+      }
+      #scoreBoard {
+        position: fixed;
+        top: 10px;
+        left: 10px;
+        background: white;
+        padding: 10px;
+        border: 1px solid black;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="gameArea">
+      <div class="ball" id="ball"></div>
+      <div class="hole" id="hole"></div>
+    </div>
+    <div id="scoreBoard">
+      <div>Time: <span id="time">0</span> seconds</div>
+      <div>Score: <span id="score">0</span></div>
+      <div>Record Scores:</div>
+      <ul id="records"></ul>
+    </div>
+
+    <script src="script.js"></script>
+  </body>
+</html>

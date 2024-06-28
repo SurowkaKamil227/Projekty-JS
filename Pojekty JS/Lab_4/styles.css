@@ -1,0 +1,49 @@
+body {
+    font-family: Arial, sans-serif;
+}
+
+#app {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+#note-form {
+    display: flex;
+    flex-direction: column;
+}
+
+#note-form input, #note-form textarea {
+    margin-bottom: 10px;
+    padding: 10px;
+    font-size: 16px;
+}
+
+#search {
+    margin: 20px 0;
+    padding: 10px;
+    font-size: 16px;
+}
+
+#notes-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.note {
+    border: 1px solid #ccc;
+    padding: 10px;
+    border-radius: 5px;
+    position: relative;
+}
+
+.note .pin {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+}
+
+.note .reminder {
+    color: red;
+}
