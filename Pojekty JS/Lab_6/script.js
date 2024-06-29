@@ -1,4 +1,3 @@
-// Pobieranie referencji do elementów DOM
 const gameArea = document.getElementById("gameArea");
 const ball = document.getElementById("ball");
 const hole = document.getElementById("hole");
@@ -6,7 +5,6 @@ const timeDisplay = document.getElementById("time");
 const scoreDisplay = document.getElementById("score");
 const recordsDisplay = document.getElementById("records");
 
-// Inicjalizacja pozycji kulki i dziury na losowych pozycjach
 let ballPosition = {
   x: Math.random() * (window.innerWidth - 30),
   y: Math.random() * (window.innerHeight - 30),
@@ -15,10 +13,9 @@ let holePosition = {
   x: Math.random() * (window.innerWidth - 50),
   y: Math.random() * (window.innerHeight - 50),
 };
-let score = 0; // Początkowy wynik
-let startTime = Date.now(); // Czas rozpoczęcia gry
+let score = 0; 
+let startTime = Date.now(); 
 
-// Funkcja resetująca pozycje kulki i dziury na losowe pozycje
 function resetGame() {
   ballPosition = {
     x: Math.random() * (window.innerWidth - 30),
@@ -50,63 +47,57 @@ function updateBallPosition(x, y) {
     Math.min(window.innerHeight - 30, ballPosition.y)
   );
 
-  // Aktualizacja stylów pozycji kulki w DOM
   ball.style.left = ballPosition.x + "px";
   ball.style.top = ballPosition.y + "px";
 
-  // Sprawdzenie, czy kulka znajduje się w dziurze
   if (
     ballPosition.x >= holePosition.x &&
     ballPosition.x <= holePosition.x + 50 &&
     ballPosition.y >= holePosition.y &&
     ballPosition.y <= holePosition.y + 50
   ) {
-    score++; // Zwiększenie wyniku
-    scoreDisplay.textContent = score; // Aktualizacja wyświetlania wyniku
-    resetGame(); // Resetowanie pozycji kulki i dziury
+    score++; 
+    scoreDisplay.textContent = score; 
+    resetGame(); 
   }
 }
 
-// Funkcja aktualizująca czas gry i zapisująca wynik po upływie minuty
 function updateTimer() {
-  const elapsedTime = Math.floor((Date.now() - startTime) / 1000); // Obliczenie upływu czasu w sekundach
-  timeDisplay.textContent = elapsedTime; // Aktualizacja wyświetlania czasu
+  const elapsedTime = Math.floor((Date.now() - startTime) / 1000);
+  timeDisplay.textContent = elapsedTime; 
 
   if (elapsedTime >= 60) {
-    // Po upływie minuty zapisanie wyniku i resetowanie gry
     const recordItem = document.createElement("li");
-    recordItem.textContent = score; // Dodanie wyniku do listy rekordów
+    recordItem.textContent = score; 
     recordsDisplay.appendChild(recordItem);
 
-    score = 0; // Resetowanie wyniku
-    scoreDisplay.textContent = score; // Aktualizacja wyświetlania wyniku
-    startTime = Date.now(); // Restartowanie czasu gry
+    score = 0; 
+    scoreDisplay.textContent = score; 
+    startTime = Date.now(); 
   } else {
-    requestAnimationFrame(updateTimer); // Kontynuowanie aktualizacji czasu
+    requestAnimationFrame(updateTimer); 
   }
 }
 
-// Obsługa zdarzenia orientacji urządzenia mobilnego
 window.addEventListener("deviceorientation", (event) => {
-  const { beta, gamma } = event; // Pobranie wartości beta i gamma z akcelerometru
-  updateBallPosition(gamma / 50, beta / 50); // Aktualizacja pozycji kulki
+  const { beta, gamma } = event; 
+  updateBallPosition(gamma / 50, beta / 50); 
 });
 
-// Dodanie obsługi klawiatury dla symulacji ruchu kulki
 window.addEventListener("keydown", (event) => {
   const step = 5; // Wielkość kroku przesunięcia kulki
   switch (event.key) {
     case "ArrowUp":
-      updateBallPosition(0, -step); // Przesunięcie kulki w górę
+      updateBallPosition(0, -step); 
       break;
     case "ArrowDown":
-      updateBallPosition(0, step); // Przesunięcie kulki w dół
+      updateBallPosition(0, step);
       break;
     case "ArrowLeft":
-      updateBallPosition(-step, 0); // Przesunięcie kulki w lewo
+      updateBallPosition(-step, 0); 
       break;
     case "ArrowRight":
-      updateBallPosition(step, 0); // Przesunięcie kulki w prawo
+      updateBallPosition(step, 0); 
       break;
   }
 });
